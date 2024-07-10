@@ -19,6 +19,8 @@ class TaskBoard extends KanbanBoard
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
+    protected static string $recordView = 'filament.KanbanBoards.Task.record';
+
     protected static string $recordTitleAttribute = 'title';
 
     public bool $disableEditModal = false;
@@ -27,7 +29,8 @@ class TaskBoard extends KanbanBoard
 
     public function onStatusChanged(int $recordId, string $status, array $fromOrderedIds, array $toOrderedIds): void
     {
-        // User::find($recordId)->update(['status' => $status]);
+
+        Task::find($recordId)->update(['status' => $status]);
         // User::setNewOrder($toOrderedIds);
     }
 
@@ -45,11 +48,21 @@ class TaskBoard extends KanbanBoard
             Forms\Components\RichEditor::make('description')
                 ->required()
                 ->maxLength(255),
-            Forms\Components\Select::make('status')
-                ->options(TaskStatus::toArray())
-                ->label('Task Status')
-                ->selectablePlaceholder(false)
-                ->required(),
+            
+            Forms\Components\Placeholder::make('creator_name')
+                ->label('Task status')
+                ->content(function () use ($recordId) {
+                        if($recordId) return Task::find($recordId)->status ?? '';
+                    }),
+            // Forms\Components\Select::make('status')
+            //     ->options(TaskStatus::toArray())
+            //     ->label('Task Status')
+            //     // ->default(function () use ($recordId) {
+            //     //     if ($recordId)
+            //     //         dd(Task::find($recordId)->status);
+            //     // })
+            //     ->selectablePlaceholder(false)
+            //     ->required(),
 
 
             Forms\Components\Fieldset::make('Created by')
@@ -62,11 +75,8 @@ class TaskBoard extends KanbanBoard
                     Forms\Components\Placeholder::make('creator_name')
                     ->label('')
                     ->content(function () use ($recordId) {
-                            if($recordId){
-                                
-                                 return Task::with('creator')->find($recordId)->creator->name ?? '';
-                            }
-
+                            if($recordId) return Task::with('creator')->find($recordId)->creator->name ?? '';
+                            
                         })
                     ]),
 
