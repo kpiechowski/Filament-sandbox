@@ -4,15 +4,16 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use Filament\Infolists;
 use Filament\Forms\Form;
 use App\Models\Equipment;
 use Filament\Tables\Table;
-use Filament\Infolists;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Infolists\Components\TextEntry;
-use Filament\Infolists\Components\Section;
+use Filament\Resources\Components\Tab;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Infolists\Components\Section;
 use App\Filament\Resources\EquipmentResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\EquipmentResource\RelationManagers;
@@ -32,6 +33,8 @@ class EquipmentResource extends Resource
         return $form
             ->schema(Equipment::getForm());
     }
+
+    
 
     public static function table(Table $table): Table
     {
@@ -80,6 +83,7 @@ class EquipmentResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->slideOver(),
+                Tables\Actions\CreateAction::make()->slideOver(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -115,7 +119,7 @@ class EquipmentResource extends Resource
     {
         return [
             'index' => Pages\ListEquipment::route('/'),
-            'create' => Pages\CreateEquipment::route('/create'),
+            // 'create' => Pages\CreateEquipment::route('/create'),
             'view' => Pages\ViewRquipment::route('/{record}'),
             // 'edit' => Pages\EditEquipment::route('/{record}/edit'),
         ];

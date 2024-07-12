@@ -21,7 +21,8 @@ class TaskFactory extends Factory
         return [
             'title' => fake()->jobTitle(),
             'description' => fake()->realTextBetween(20, 150),
-            'status' => fake()->randomElement(TaskStatus::toArray()),
+            // 'status' => fake()->randomElement(TaskStatus::toArray()),
+            'status' => TaskStatus::TO_DO,
             'created_by' => User::factory(),
             'deadline' => fake()->dateTimeBetween('now', '+3 months'),
         ];

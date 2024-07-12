@@ -45,6 +45,21 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function booted() // doesnt work
+    {
+        static::created(function ($user) {
+            if ($user->status === 'Worker') {
+                Worker::createFromUser($user);
+            }
+        });
+
+        static::updated(function ($user) {
+            if ($user->status === 'Worker' && !$user->worker) {
+                Worker::createFromUser($user);
+            }
+        });
+    }
+
 
     public function createdTasks()
     {
@@ -59,5 +74,10 @@ class User extends Authenticatable
     public function worker()
     {
         return $this->hasOne(Worker::class);
+    }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_user');
     }
 }

@@ -38,7 +38,7 @@ class EquipmentsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()->slideOver(),
+                // Tables\Actions\CreateAction::make()->slideOver(),
 
                 Tables\Actions\AttachAction::make()
                     ->form(fn(Tables\Actions\AttachAction $action): array => [
@@ -74,7 +74,7 @@ class EquipmentsRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\DetachAction::make(),
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
                 // Tables\Actions\DeleteAction::make(),
 
             ])

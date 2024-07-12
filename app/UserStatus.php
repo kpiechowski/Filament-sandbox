@@ -8,6 +8,17 @@ enum UserStatus : string
 {
     //
     use IsKanbanStatus;
-    case USER = "User";
     case ADMIN = "Admin";
+    case USER = "User";
+    case WORKER = "Worker";
+
+    public function isAllowed(array $allowedStatuses): bool
+    {
+        return in_array($this, $allowedStatuses, true);
+    }
+
+    public static function toArray(): array
+    {
+        return array_column(UserStatus::cases(), 'value');
+    }  
 }

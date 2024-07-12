@@ -50,6 +50,15 @@ class Worker extends Model
         ];
     }
 
+    public static function createFromUser(User $user){
+        return Worker::create([
+            'name' => $user->name,
+            'surname' => $user->name,
+            'email' => $user->email,
+            'user_id' => $user->id,
+        ]);
+    }
+
     public function user() {
         return $this->belongsTo(User::class);
     }
