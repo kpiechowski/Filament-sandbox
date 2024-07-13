@@ -53,7 +53,7 @@ class Worker extends Model
     public static function createFromUser(User $user){
         return Worker::create([
             'name' => $user->name,
-            'surname' => $user->name,
+            'last_name' => $user->last_name,
             'email' => $user->email,
             'user_id' => $user->id,
         ]);

@@ -23,11 +23,7 @@ class GroupResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-            ]);
+            ->schema(Group::getFrom());
     }
 
     public static function table(Table $table): Table

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\UserStatus;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -18,8 +21,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
         'email',
         'password',
+        'status',
     ];
 
     /**
@@ -58,6 +63,50 @@ class User extends Authenticatable
                 Worker::createFromUser($user);
             }
         });
+    }
+
+
+    public static function getForm(): array {
+        return [
+
+            Forms\Components\TextInput::make('name')
+                ->required()
+                ->maxLength(255),
+            Forms\Components\TextInput::make('email')
+                ->email()
+                ->unique()
+                ->validationMessages([
+                    'unique' => 'The :attribute has already been registered.',
+                ])
+                ->required()
+                ->maxLength(255),
+            Forms\Components\TextInput::make('password')
+                ->password()
+                ->required()
+                ->revealable()
+                ->maxLength(255)
+                ->confirmed(),
+            Forms\Components\TextInput::make('password_confirmation')
+                ->password()
+                ->required()
+                ->revealable(),
+            Forms\Components\Select::make('status')
+                ->prefixIcon('heroicon-m-user')
+                ->options(UserStatus::toArray())
+                ->required()
+                ->native(false),
+        ];
+
+              // Shout::make('warn-price')
+                //     ->visible(function (Forms\Get $get) {
+                //         return $get('ticket_cost') > 500;
+                //     })
+                //     ->columnSpanFull()
+                //     ->type('warning')
+                //     ->content(function (Forms\Get $get) {
+                //         $price = $get('ticket_cost');
+                //         return 'This is ' . $price - 500 . ' more than the average ticket price';
+                //     }),
     }
 
 

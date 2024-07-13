@@ -6,6 +6,7 @@ use App\UserStatus;
 use Filament\Forms;
 use App\Models\User;
 use Filament\Tables;
+use Awcodes\Shout\Components\Shout;
 use App\Models\Worker;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -25,33 +26,7 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('status')
-                    ->options(UserStatus::toArray())
-                    ->required()
-                    ->native(false)
-
-                    
-            ]);
-            
-            // ->afterSave(function ($form, User $record) {
-            //     if ($record->status === UserStatus::WORKER->value) {
-            //         // Create a Worker model
-            //         Worker::createFromUser($record);
-            //     }
-            // });
-
+            ->schema(User::getForm());
 
     }
 
@@ -67,7 +42,7 @@ class UserResource extends Resource
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->searchable(),
+                    ->searchable()->badge(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

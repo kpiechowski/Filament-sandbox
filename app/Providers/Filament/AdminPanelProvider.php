@@ -34,6 +34,7 @@ class AdminPanelProvider extends PanelProvider
             ->navigationGroups([
                 NavigationGroup::make()
                     ->label('Shops')
+                    ->extraSidebarAttributes(['class' => 'bg-warning'])
                     ->icon('heroicon-o-building-storefront'),
                 NavigationGroup::make()
                     ->label('Users')

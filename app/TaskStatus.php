@@ -14,7 +14,6 @@ enum TaskStatus : string
     case IN_PROGRESS = 'In Progress';
     case REVIEW = 'Review';
     case DONE = 'Done';
-    case BLOCKED = 'Blocked';
     case CANCELED = 'Canceled';
 
 
